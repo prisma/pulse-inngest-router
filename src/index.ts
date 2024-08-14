@@ -3,8 +3,10 @@ import { withPulse } from '@prisma/extension-pulse';
 import { Inngest } from 'inngest';
 
 const apiKey: string = process.env.PULSE_API_KEY ?? '';
-const prisma = new PrismaClient().$extends(withPulse({ apiKey: apiKey }));
-const inngest = new Inngest({ id: 'my-app' });
+const prisma = new PrismaClient().$extends(withPulse({ apiKey }));
+
+const eventKey: string = process.env.INNGEST_EVENT_KEY ?? '';
+const inngest = new Inngest({ id: 'my-app', eventKey });
 
 process.on('SIGINT', () => {
   process.exit(0);
