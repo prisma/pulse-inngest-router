@@ -32,7 +32,7 @@ async function main() {
       continue;
     }
 
-    const stream = await (prisma as any)[model].stream();
+    const stream = await (prisma as any)[model].stream({ name: `stream-${model}` });
     streams.push(handleStream(stream, model));
 
     process.on('exit', (code) => {
