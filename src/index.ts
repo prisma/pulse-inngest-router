@@ -6,13 +6,14 @@ const apiKey: string = process.env.PULSE_API_KEY ?? '';
 const prisma = new PrismaClient().$extends(withPulse({ apiKey }));
 
 const eventKey: string = process.env.INNGEST_EVENT_KEY ?? '';
-const inngest = new Inngest({ id: 'my-app', eventKey });
+const inngest = new Inngest({ id: 'pulse-inngest-router', eventKey });
 
 process.on('SIGINT', () => {
   process.exit(0);
 });
 
-const MODELS = ['notification', 'user'];
+// Here configure each prisma model to stream changes from
+const PRISMA_MODELS = ['notification', 'user'];
 
 async function handleStream(stream: AsyncIterable<any>, model: string) {
   console.log('Streaming events from', model);
@@ -28,7 +29,7 @@ async function handleStream(stream: AsyncIterable<any>, model: string) {
 
 async function main() {
   const streams: any[] = [];
-  for (const model of MODELS) {
+  for (const model of PRISMA_MODELS) {
     if (!Object.keys(prisma).includes(model)) {
       console.log(`Model not found in Prisma client (${model}). Skipping...`);
       continue;
