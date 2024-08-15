@@ -93,6 +93,29 @@ docker run \
   pulse-inngest-router
 ```
 
+## Create Inngest functions
+
+When database changes occur, there will automatically be events submitted to 
+your Inngest project. The event names will be formatted like this: `db/<action>.<model>`
+
+eg. If your model is `notification`, and a new row is added, the event submitted
+to Inngest will be `db/create.notification`
+
+The possible actions are `create`, `update`, and `delete`.
+
+To handle these events, create an Inngest function with the appropriate name.
+See the below example, and the [Inngest docs](https://www.inngest.com/docs/learn/inngest-functions) for more detail:
+
+```typescript
+export default inngest.createFunction(
+  { id: "handle-new-notification" },
+  { event: "db/create.notification" },
+  async ({ event, step }) => {
+    // Your logic here
+  };
+);
+```
+
 ## Helpful documentation
 1. [Get started with Prisma ORM](https://www.prisma.io/docs/getting-started)
 1. [Get started with Prisma Pulse](https://www.prisma.io/docs/pulse)
