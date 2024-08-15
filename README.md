@@ -51,6 +51,7 @@ const PRISMA_MODELS = ['notification', 'user'];
 ### Test locally before saving your changes
 
 Run the service locally:
+1. `npx prisma generate`
 1. `npm run build`
 1. `npm run start`
 
