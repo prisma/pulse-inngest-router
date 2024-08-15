@@ -111,10 +111,14 @@ export default inngest.createFunction(
   { id: "handle-new-notification" },
   { event: "db/create.notification" },
   async ({ event, step }) => {
+    const pulseChange = event.data;
+
     // Your logic here
   };
 );
 ```
+
+Note that the full [Pulse Change Event](https://www.prisma.io/docs/pulse/database-events) is available in `event.data`;
 
 ## Helpful documentation
 1. [Get started with Prisma ORM](https://www.prisma.io/docs/getting-started)
