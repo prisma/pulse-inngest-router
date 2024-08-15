@@ -15,8 +15,9 @@ process.on('SIGINT', () => {
 // Here configure each prisma model to stream changes from
 const PRISMA_MODELS = ['notification', 'user'];
 
-async function handleStream(stream: AsyncIterable<any>, model: string) {
+async function handleStream(stream: AsyncIterable<any>, model: string): Promise<void> {
   console.log('Streaming events from', model);
+  
   for await (const event of stream) {
     console.log(`Event from ${model}:`, event);
 
@@ -28,7 +29,8 @@ async function handleStream(stream: AsyncIterable<any>, model: string) {
 }
 
 async function main() {
-  const streams: any[] = [];
+  const streams: Promise<void>[] = [];
+
   for (const model of PRISMA_MODELS) {
     if (!Object.keys(prisma).includes(model)) {
       console.log(`Model not found in Prisma client (${model}). Skipping...`);
